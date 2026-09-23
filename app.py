@@ -4,11 +4,32 @@ Compliant with Darshan University MLDL SOP Specification (Weeks 6 & 7)
 """
 
 import os
+import sys
 import json
 import pickle
 import numpy as np
 import pandas as pd
 from flask import Flask, render_template, request, jsonify
+
+# Cross-platform compatibility for Cython extension modules in scikit-learn (e.g. Linux Vercel / Windows)
+try:
+    import sklearn._loss._loss as _loss_cython
+    sys.modules['_loss'] = _loss_cython
+except Exception:
+    pass
+
+class SafeUnpickler(pickle.Unpickler):
+    def find_class(self, module, name):
+        if module == '_loss':
+            module = 'sklearn._loss._loss'
+        return super().find_class(module, name)
+
+def safe_pickle_load(file_obj):
+    try:
+        return SafeUnpickler(file_obj).load()
+    except Exception:
+        file_obj.seek(0)
+        return pickle.load(file_obj)
 
 # Base directory for resolving artifacts
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -33,11 +54,11 @@ model_error = None
 # Load ML artifacts
 try:
     with open(get_file_path("model.pkl"), "rb") as f:
-        model = pickle.load(f)
+        model = safe_pickle_load(f)
     with open(get_file_path("scaler.pkl"), "rb") as f:
-        scaler = pickle.load(f)
+        scaler = safe_pickle_load(f)
     with open(get_file_path("feature_order.pkl"), "rb") as f:
-        feature_order = pickle.load(f)
+        feature_order = safe_pickle_load(f)
     with open(get_file_path("model_metadata.json"), "r", encoding="utf-8") as f:
         model_metadata = json.load(f)
     print("Successfully loaded model, scaler, feature order, and metadata.")
