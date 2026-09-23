@@ -51,7 +51,7 @@ An end-to-end Machine Learning web application designed and built in accordance 
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/<your-username>/cardio-ml-project.git
+git clone https://github.com/Kevinl-glitch/cardio-ml-project.git
 cd cardio-ml-project
 ```
 
