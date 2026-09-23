@@ -29,6 +29,7 @@ def get_file_path(filename):
         return sub_path
     return root_path
 
+model_error = None
 # Load ML artifacts
 try:
     with open(get_file_path("model.pkl"), "rb") as f:
@@ -41,7 +42,8 @@ try:
         model_metadata = json.load(f)
     print("Successfully loaded model, scaler, feature order, and metadata.")
 except Exception as e:
-    print(f"Warning loading artifacts: {e}")
+    model_error = f"{type(e).__name__}: {str(e)}"
+    print(f"Warning loading artifacts: {model_error}")
     model = None
     scaler = None
     feature_order = [
@@ -219,7 +221,16 @@ def api_model_info():
 
 @app.route('/health', methods=['GET'])
 def health():
-    return jsonify({"status": "healthy", "service": "CardioML", "version": "1.0.0"})
+    return jsonify({
+        "status": "healthy",
+        "service": "CardioML",
+        "version": "1.0.0",
+        "model_loaded": model is not None,
+        "scaler_loaded": scaler is not None,
+        "model_error": model_error,
+        "base_dir": BASE_DIR,
+        "files": os.listdir(BASE_DIR) if os.path.exists(BASE_DIR) else []
+    })
 
 if __name__ == '__main__':
     # Local development server
