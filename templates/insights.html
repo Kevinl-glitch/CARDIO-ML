@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% set active_page = 'insights' %}
+
+{% block title %}EDA Details & Data Insights — CardioML{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-bottom: 60px;">
+  <!-- Top Bar -->
+  <div class="page-top-bar">
+    <a href="{{ url_for('index') }}" class="back-link">
+      <span>←</span>
+      <span>Back To Home</span>
+    </a>
+    <span class="tag-badge">Cleaned Dataset: 68,573 records</span>
+  </div>
+
+  <!-- Page Header matching SOP Page 9 -->
+  <div class="page-header">
+    <h1 class="page-title">EDA Details</h1>
+    <p class="page-desc">Data Source & Preprocessing Funnel Overview</p>
+  </div>
+
+  <!-- 3 Data Funnel Cards (SOP Page 9) -->
+  <div class="eda-funnel-grid">
+    <div class="funnel-card">
+      <div class="funnel-card-header">
+        <span>Raw records</span>
+        <span class="funnel-badge">Before cleaning</span>
+      </div>
+      <div class="funnel-val">70,000</div>
+    </div>
+
+    <div class="funnel-card">
+      <div class="funnel-card-header">
+        <span>Rows removed</span>
+        <span class="funnel-badge">2.04% outliers</span>
+      </div>
+      <div class="funnel-val" style="color: #ea580c;">1,427</div>
+    </div>
+
+    <div class="funnel-card">
+      <div class="funnel-card-header">
+        <span>Final records</span>
+        <span class="funnel-badge">Used for training</span>
+      </div>
+      <div class="funnel-val" style="color: #16a34a;">68,573</div>
+    </div>
+  </div>
+
+  <!-- 2-Column Insights Content (SOP Page 9) -->
+  <div class="insights-two-col">
+    <!-- Left: Understanding CVD -->
+    <div class="info-panel">
+      <h2 class="info-panel-title">Understanding CVD</h2>
+      <p class="info-panel-desc">What CVD is, how it affects life and how the model helps.</p>
+
+      <p class="info-text">
+        Cardiovascular disease (CVD) is an umbrella term for conditions that affect the heart and blood vessels — including coronary artery disease, heart attack, and stroke. Lifestyle, metabolic health (blood pressure, cholesterol, glucose), and age are common drivers.
+      </p>
+
+      <ul class="info-bullets">
+        <li class="info-bullet">
+          <strong>Impact:</strong> Reduces physical capacity, increases long-term care needs, and raises risk of sudden acute coronary events.
+        </li>
+        <li class="info-bullet">
+          <strong>Prevention:</strong> Early detection of risk factors (BP, cholesterol, BMI, glucose, activity) decreases long-term adverse cardiovascular risk.
+        </li>
+        <li class="info-bullet">
+          <strong>Model role:</strong> The ML model identifies complex multi-factor patterns in historical clinical data to estimate risk probabilities — useful for screening and triage, not an autonomous diagnosis.
+        </li>
+      </ul>
+
+      <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 12px 16px; border-radius: 4px; font-size: 0.85rem; color: var(--text-muted);">
+        Predictions are for research/educational use. Always consult healthcare professionals for definitive medical decisions.
+      </div>
+    </div>
+
+    <!-- Right: Ideal Ranges -->
+    <div class="info-panel">
+      <h2 class="info-panel-title">Ideal ranges</h2>
+      <p class="info-panel-desc">Common healthy clinical targets</p>
+
+      <table class="target-table">
+        <tbody>
+          <tr>
+            <td>Blood Pressure</td>
+            <td>&lt; 120 / 80 mmHg</td>
+          </tr>
+          <tr>
+            <td>Cholesterol (Total)</td>
+            <td>&lt; 200 mg/dL</td>
+          </tr>
+          <tr>
+            <td>Fasting Glucose</td>
+            <td>70 – 99 mg/dL</td>
+          </tr>
+          <tr>
+            <td>BMI</td>
+            <td>18.5 – 24.9 kg/m²</td>
+          </tr>
+          <tr>
+            <td>Resting Heart Rate</td>
+            <td>60 – 100 bpm</td>
+          </tr>
+          <tr>
+            <td>Physical Activity</td>
+            <td>&ge; 150 min/week</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top: 20px; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+        <em>Note:</em> Values outside these clinical ranges can synergistically increase cardiovascular risk when multiple indicators are elevated concurrently.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

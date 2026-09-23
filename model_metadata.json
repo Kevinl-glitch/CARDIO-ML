@@ -1,0 +1,58 @@
+{
+  "model_name": "GradientBoostingClassifier",
+  "library": "scikit-learn",
+  "trained_at": "23 Sep 2026, 09:54 AM",
+  "total_records": 68573,
+  "feature_count": 13,
+  "features": [
+    "gender",
+    "height",
+    "weight",
+    "ap_hi",
+    "ap_lo",
+    "cholesterol",
+    "gluc",
+    "smoke",
+    "alco",
+    "active",
+    "age_years",
+    "bmi",
+    "pulse_pressure"
+  ],
+  "continuous_features": [
+    "age_years",
+    "height",
+    "weight",
+    "bmi",
+    "ap_hi",
+    "ap_lo",
+    "pulse_pressure"
+  ],
+  "hyperparameters": {
+    "n_estimators": 300,
+    "learning_rate": 0.05,
+    "max_depth": 4,
+    "min_samples_leaf": 3,
+    "random_state": 42
+  },
+  "performance": {
+    "accuracy": 73.0,
+    "f1_score": 71.5,
+    "roc_auc": 79.9
+  },
+  "feature_importance": {
+    "ap_hi": 70.4,
+    "age_years": 13.46,
+    "cholesterol": 7.36,
+    "bmi": 2.79,
+    "weight": 1.31,
+    "ap_lo": 1.2,
+    "height": 0.79,
+    "gluc": 0.71,
+    "pulse_pressure": 0.7,
+    "active": 0.67,
+    "smoke": 0.34,
+    "alco": 0.2,
+    "gender": 0.09
+  }
+}

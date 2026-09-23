@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+{% set active_page = 'predict' %}
+
+{% block title %}CVD Prediction Form — CardioML{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-bottom: 60px;">
+  <!-- Sub-navigation Bar (SOP Page 8) -->
+  <div class="page-top-bar">
+    <a href="{{ url_for('index') }}" class="back-link">
+      <span>←</span>
+      <span>Back To Home</span>
+    </a>
+    <span class="tag-badge">🛡️ Gradient Classifier</span>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">CVD Prediction Form</h1>
+    <p class="page-desc">Enter your health details to assess cardiovascular disease risk</p>
+  </div>
+
+  <!-- Prediction Form Card -->
+  <div class="panel-card">
+    <h2 class="panel-card-title">Predict CVD</h2>
+    <p class="panel-card-subtitle">Personal Information & Clinical Metrics</p>
+
+    <form id="cvd-prediction-form" method="POST" action="{{ url_for('predict') }}">
+      <div class="form-grid">
+        <!-- Age -->
+        <div class="form-group">
+          <label class="form-label" for="age_years">Age</label>
+          <span class="form-hint">Please enter your age in years</span>
+          <input
+            type="number"
+            class="form-input"
+            id="age_years"
+            name="age_years"
+            min="18"
+            max="100"
+            value="{{ form_data.age_years if form_data else 50 }}"
+            required
+            placeholder="e.g. 50"
+          >
+        </div>
+
+        <!-- Height -->
+        <div class="form-group">
+          <label class="form-label" for="height">Height (cm)</label>
+          <span class="form-hint">Measured in centimeters (cm) without shoes</span>
+          <input
+            type="number"
+            class="form-input"
+            id="height"
+            name="height"
+            min="120"
+            max="220"
+            step="1"
+            value="{{ form_data.height if form_data else 175 }}"
+            required
+            placeholder="e.g. 175"
+          >
+        </div>
+
+        <!-- Weight -->
+        <div class="form-group">
+          <label class="form-label" for="weight">Weight (kg)</label>
+          <span class="form-hint">Measured in kilograms (kg)</span>
+          <input
+            type="number"
+            class="form-input"
+            id="weight"
+            name="weight"
+            min="30"
+            max="200"
+            step="0.5"
+            value="{{ form_data.weight if form_data else 70.5 }}"
+            required
+            placeholder="e.g. 70.5"
+          >
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group">
+          <label class="form-label" for="gender">Gender</label>
+          <span class="form-hint">Biological sex at birth</span>
+          <select class="form-select" id="gender" name="gender" required>
+            <option value="1" {% if form_data and form_data.gender == 1 %}selected{% endif %}>Female</option>
+            <option value="2" {% if not form_data or form_data.gender == 2 %}selected{% endif %}>Male</option>
+          </select>
+        </div>
+
+        <!-- Systolic Blood Pressure -->
+        <div class="form-group">
+          <label class="form-label" for="ap_hi">Systolic Blood Pressure (ap_hi)</label>
+          <span class="form-hint">Upper reading in mmHg</span>
+          <input
+            type="number"
+            class="form-input"
+            id="ap_hi"
+            name="ap_hi"
+            min="80"
+            max="240"
+            value="{{ form_data.ap_hi if form_data else 120 }}"
+            required
+            placeholder="e.g. 120"
+          >
+        </div>
+
+        <!-- Diastolic Blood Pressure -->
+        <div class="form-group">
+          <label class="form-label" for="ap_lo">Diastolic Blood Pressure (ap_lo)</label>
+          <span class="form-hint">Lower reading in mmHg</span>
+          <input
+            type="number"
+            class="form-input"
+            id="ap_lo"
+            name="ap_lo"
+            min="40"
+            max="180"
+            value="{{ form_data.ap_lo if form_data else 80 }}"
+            required
+            placeholder="e.g. 80"
+          >
+        </div>
+
+        <!-- Cholesterol -->
+        <div class="form-group">
+          <label class="form-label" for="cholesterol">Cholesterol Level</label>
+          <span class="form-hint">Total serum cholesterol category</span>
+          <select class="form-select" id="cholesterol" name="cholesterol" required>
+            <option value="1" {% if not form_data or form_data.cholesterol == 1 %}selected{% endif %}>1 — Normal (< 200 mg/dL)</option>
+            <option value="2" {% if form_data and form_data.cholesterol == 2 %}selected{% endif %}>2 — Above Normal (200-239 mg/dL)</option>
+            <option value="3" {% if form_data and form_data.cholesterol == 3 %}selected{% endif %}>3 — Well Above Normal (≥ 240 mg/dL)</option>
+          </select>
+        </div>
+
+        <!-- Glucose -->
+        <div class="form-group">
+          <label class="form-label" for="gluc">Glucose Level</label>
+          <span class="form-hint">Fasting blood sugar category</span>
+          <select class="form-select" id="gluc" name="gluc" required>
+            <option value="1" {% if not form_data or form_data.gluc == 1 %}selected{% endif %}>1 — Normal (< 100 mg/dL)</option>
+            <option value="2" {% if form_data and form_data.gluc == 2 %}selected{% endif %}>2 — Above Normal (100-125 mg/dL)</option>
+            <option value="3" {% if form_data and form_data.gluc == 3 %}selected{% endif %}>3 — Well Above Normal (≥ 126 mg/dL)</option>
+          </select>
+        </div>
+
+        <!-- Smoking -->
+        <div class="form-group">
+          <label class="form-label" for="smoke">Smoker</label>
+          <span class="form-hint">Do you smoke tobacco regularly?</span>
+          <select class="form-select" id="smoke" name="smoke" required>
+            <option value="0" {% if not form_data or form_data.smoke == 0 %}selected{% endif %}>No (Non-smoker)</option>
+            <option value="1" {% if form_data and form_data.smoke == 1 %}selected{% endif %}>Yes (Regular smoker)</option>
+          </select>
+        </div>
+
+        <!-- Alcohol -->
+        <div class="form-group">
+          <label class="form-label" for="alco">Alcohol Intake</label>
+          <span class="form-hint">Do you consume alcohol regularly?</span>
+          <select class="form-select" id="alco" name="alco" required>
+            <option value="0" {% if not form_data or form_data.alco == 0 %}selected{% endif %}>No</option>
+            <option value="1" {% if form_data and form_data.alco == 1 %}selected{% endif %}>Yes</option>
+          </select>
+        </div>
+
+        <!-- Physical Activity -->
+        <div class="form-group" style="grid-column: span 2;">
+          <label class="form-label" for="active">Physical Activity</label>
+          <span class="form-hint">Do you engage in regular physical exercise (≥ 150 min/week)?</span>
+          <select class="form-select" id="active" name="active" required>
+            <option value="1" {% if not form_data or form_data.active == 1 %}selected{% endif %}>Yes (Physically Active)</option>
+            <option value="0" {% if form_data and form_data.active == 0 %}selected{% endif %}>No (Sedentary)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Live Clinical Calculation Bar -->
+      <div class="live-info-bar">
+        <div class="live-item">
+          <span>Calculated BMI:</span>
+          <span class="live-val" id="live-bmi-val">23.0</span>
+          <span class="badge-status status-green" id="live-bmi-badge">Normal</span>
+        </div>
+        <div class="live-item">
+          <span>Pulse Pressure:</span>
+          <span class="live-val" id="live-pp-val">40 mmHg</span>
+          <span class="badge-status status-green" id="live-pp-badge">Normal</span>
+        </div>
+      </div>
+
+      <!-- Form Submit Button -->
+      <div style="text-align: right;">
+        <button type="submit" id="btn-submit-predict" class="btn-primary" style="width: 100%; padding: 14px; font-size: 1.05rem;">
+          Predict Risk Assessment
+        </button>
+      </div>
+    </form>
+
+    <!-- Prediction Results Display Panel -->
+    <div id="prediction-result-box" class="result-box" style="{% if result %}display: block;{% else %}display: none;{% endif %}">
+      <div class="result-header">
+        <div id="result-status-badge" class="result-status {% if result and result.prediction == 1 %}high-risk{% elif result %}low-risk{% endif %}">
+          {% if result and result.prediction == 1 %}
+            ⚠️ Higher Cardiovascular Risk Detected
+          {% elif result %}
+            ✅ Lower Cardiovascular Risk Detected
+          {% endif %}
+        </div>
+        <div>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Estimated Probability:</span>
+          <strong id="result-proba-val" style="font-size: 1.4rem; color: var(--text-main); margin-left: 6px;">
+            {{ result.probability if result else '0.0' }}%
+          </strong>
+        </div>
+      </div>
+
+      <div class="prob-meter-wrapper">
+        <div class="prob-meter-labels">
+          <span>Low Risk (0%)</span>
+          <span>Moderate (50%)</span>
+          <span>High Risk (100%)</span>
+        </div>
+        <div class="prob-meter-bar">
+          <div
+            id="result-meter-fill"
+            class="prob-meter-fill {% if result and result.prediction == 1 %}high{% else %}low{% endif %}"
+            style="width: {{ result.probability if result else 0 }}%;"
+          ></div>
+        </div>
+      </div>
+
+      <div>
+        <h4 style="font-size: 0.95rem; font-weight: 700; margin-top: 16px; margin-bottom: 8px;">
+          Primary Contributing Risk Indicators:
+        </h4>
+        <ul id="result-factors-list" class="risk-factors-list">
+          {% if result and result.risk_factors %}
+            {% for rf in result.risk_factors %}
+              <li>{{ rf }}</li>
+            {% endfor %}
+          {% elif result %}
+            <li>All primary clinical measurements (Blood Pressure, BMI, Cholesterol) fall within standard ranges.</li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-muted);">
+        <strong>Clinical Advisory:</strong> This assessment is produced by an automated Gradient Boosting ML model trained on historical clinical records. It is intended solely for academic and preliminary screening assistance and does not constitute medical diagnosis.
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% set active_page = 'disclaimer' %}
+
+{% block title %}Disclaimer — CardioML{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-bottom: 60px;">
+  <!-- Top Bar -->
+  <div class="page-top-bar">
+    <a href="{{ url_for('index') }}" class="back-link">
+      <span>←</span>
+      <span>Back To Home</span>
+    </a>
+    <span class="tag-badge">Compliance & Ethics</span>
+  </div>
+
+  <div class="page-header">
+    <h1 class="page-title">Project & Clinical Disclaimer</h1>
+    <p class="page-desc">Academic Project Guidelines & Medical Advisory</p>
+  </div>
+
+  <div class="panel-card" style="max-width: 800px; margin: 0 auto;">
+    <h2 class="panel-card-title">Academic Purpose & Context</h2>
+    <p class="panel-card-subtitle">Darshan University — Computer Engineering Department</p>
+
+    <div class="info-text">
+      <p style="margin-bottom: 14px;">
+        This application (<strong>CardioML</strong>) was built as part of the Machine Learning Course Project in accordance with the department Standard Operating Procedure (SOP). The primary educational objective is to master the end-to-end ML lifecycle:
+      </p>
+      <ul class="info-bullets">
+        <li class="info-bullet">Problem definition and exploratory data analysis (Week 1)</li>
+        <li class="info-bullet">Data cleaning, outlier handling, and standardization (Week 2)</li>
+        <li class="info-bullet">Model development including scratch algorithm implementation (Week 3)</li>
+        <li class="info-bullet">Comprehensive model evaluation and validation (Week 4)</li>
+        <li class="info-bullet">Cross-validation and hyperparameter optimization (Week 5)</li>
+        <li class="info-bullet">Frontend UI engineering (Week 6)</li>
+        <li class="info-bullet">Backend integration and cloud deployment (Week 7)</li>
+      </ul>
+    </div>
+
+    <div style="background: #fef2f2; border: 1px solid #fee2e2; border-left: 4px solid #ef4444; padding: 18px; border-radius: 8px; margin-top: 24px;">
+      <h3 style="color: #991b1b; font-size: 1.05rem; margin-bottom: 6px;">⚠️ Medical Notice</h3>
+      <p style="color: #7f1d1d; font-size: 0.9rem; line-height: 1.5;">
+        This tool is designed strictly for research, benchmarking, and instructional demonstration. The generated probability score is not a substitute for clinical diagnostics, laboratory blood panels, electrocardiograms (ECG), or professional medical consultation. If you or someone you know is experiencing symptoms of heart disease or acute discomfort, seek immediate medical attention.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

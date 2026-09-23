@@ -1,0 +1,11 @@
+.git
+.ipynb_checkpoints
+*.ipynb
+cardio_train.csv
+cardio_cleaned.csv
+cardio_cleaned_scaled.csv
+anaconda_projects
+scratch
+*.pyc
+__pycache__
+desktop.ini

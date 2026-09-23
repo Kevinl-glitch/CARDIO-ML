@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% set active_page = 'home' %}
+
+{% block title %}CardioML — Cardiovascular Risk Assessment{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+  <div class="container hero-grid">
+    <!-- Left Column: Hero Content -->
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>⚡</span>
+        <span>Early Warning System</span>
+      </div>
+
+      <h1 class="hero-title">
+        Cardiovascular
+        <span class="highlight-blue">Risk Assessment</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Our AI model analyzes clinical variables to predict potential heart risks with precision.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="{{ url_for('predict') }}" class="btn-primary">
+          Start Assessment
+        </a>
+        <a href="{{ url_for('model_info') }}" class="btn-outline">
+          Learn More
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Column: 2x2 Feature & Capability Cards (SOP Page 7) -->
+    <div class="feature-cards-grid">
+      <!-- Card 1 -->
+      <div class="feature-card">
+        <div class="card-icon icon-blue">📊</div>
+        <h3 class="feature-card-title">73.4% Accuracy</h3>
+        <p class="feature-card-desc">
+          Trained on 70,000+ clinical patient records with cross-validation.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="feature-card">
+        <div class="card-icon icon-orange">⏱️</div>
+        <h3 class="feature-card-title">Instant Results</h3>
+        <p class="feature-card-desc">
+          Real-time gradient boosting classification in under 5 seconds.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="feature-card">
+        <div class="card-icon icon-green">🛡️</div>
+        <h3 class="feature-card-title">Secure & Private</h3>
+        <p class="feature-card-desc">
+          End-to-end encrypted processing with anonymous data.
+        </p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="feature-card">
+        <div class="card-icon icon-purple">%</div>
+        <h3 class="feature-card-title">Confidence Scores</h3>
+        <p class="feature-card-desc">
+          Predictions include probability-based confidence levels.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

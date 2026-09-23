@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% set active_page = 'model' %}
+
+{% block title %}Model Details — CardioML{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-bottom: 60px;">
+  <!-- Top Bar -->
+  <div class="page-top-bar">
+    <a href="{{ url_for('index') }}" class="back-link">
+      <span>←</span>
+      <span>Back To Home</span>
+    </a>
+    <span class="tag-badge">scikit-learn 1.6+</span>
+  </div>
+
+  <!-- Page Header matching SOP Page 8 -->
+  <div class="page-header">
+    <h1 class="page-title">{{ metadata.model_name }}</h1>
+    <p class="page-desc">This model includes the following hyperparameters and evaluation metrics. Trained using {{ metadata.library }}.</p>
+  </div>
+
+  <!-- 3 Summary Stat Boxes -->
+  <div class="model-stats-grid">
+    <!-- Box 1: Model Info -->
+    <div class="stat-box">
+      <h3 class="stat-box-title">Model</h3>
+      <div class="stat-row">
+        <span class="stat-label">Algorithm</span>
+        <span class="stat-val">{{ metadata.model_name }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Library</span>
+        <span class="stat-val">{{ metadata.library }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Trained At</span>
+        <span class="stat-val">{{ metadata.trained_at }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Feature Count</span>
+        <span class="stat-val">{{ metadata.feature_count }}</span>
+      </div>
+    </div>
+
+    <!-- Box 2: Hyperparameters -->
+    <div class="stat-box">
+      <h3 class="stat-box-title">Hyperparameters</h3>
+      <div class="stat-row">
+        <span class="stat-label">Estimators</span>
+        <span class="stat-val">{{ metadata.hyperparameters.n_estimators }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Learning Rate</span>
+        <span class="stat-val">{{ metadata.hyperparameters.learning_rate }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Max Depth</span>
+        <span class="stat-val">{{ metadata.hyperparameters.max_depth }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Min Samples / Leaf</span>
+        <span class="stat-val">{{ metadata.hyperparameters.min_samples_leaf }}</span>
+      </div>
+    </div>
+
+    <!-- Box 3: Performance -->
+    <div class="stat-box">
+      <h3 class="stat-box-title">Performance</h3>
+      <div class="stat-row">
+        <span class="stat-label">Accuracy ⓘ</span>
+        <span class="stat-val">{{ metadata.performance.accuracy }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">F1 Score ⓘ</span>
+        <span class="stat-val">{{ metadata.performance.f1_score }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">ROC AUC ⓘ</span>
+        <span class="stat-val">{{ metadata.performance.roc_auc }}%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Cross Validation</span>
+        <span class="stat-val">5-Fold Stratified</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Importance Panel (SOP Page 8 Bottom) -->
+  <div class="panel-card">
+    <h2 class="panel-card-title">Top Feature Importance</h2>
+    <p class="panel-card-subtitle">Features contributing most to predictions based on Gini / Deviance reduction</p>
+
+    <div class="feat-imp-list">
+      {% for feat, imp in metadata.feature_importance.items() %}
+      <div class="feat-imp-item">
+        <div class="feat-imp-name">{{ feat }}</div>
+        <div class="feat-imp-bar-bg">
+          <div class="feat-imp-bar-fill" style="width: {{ imp }}%;"></div>
+        </div>
+        <div class="feat-imp-pct">{{ imp }}%</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
